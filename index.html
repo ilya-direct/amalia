@@ -1,0 +1,309 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head> 
+<title> NOTUM</title>
+<script language="JavaScript" type="text/javascript"
+src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js">
+</script>
+ <script src="http://code.jquery.com/jquery-latest.js"></script>
+<link rel="stylesheet" type="text/css" href="./style.css"> 
+<link rel="stylesheet" type="text/css" href="./stylear.css"> 
+<link rel="stylesheet" type="text/css" href="./style-ar.css"> 
+<link rel="stylesheet" type="text/css" href="./st.css"> 
+ <meta http-equiv="Content_type" content="text/html; charset=UTF-8"> 
+ <style>
+ #ali{margin-left:100px;}
+ #al{  height: 35px; 
+    width: 160px;
+	border-radius: 5px;}
+  #lef{float:left; width:60%; height:100%;}
+   #lay {
+    border: 1px solid green; /* Параметры рамки */
+    padding: 20px; /* Поля вокруг текста */
+    width: 74%; /* Ширина блока */
+   }
+   #header{
+   z-index:3;
+   position:fixed;
+   top: 0px;
+   left: 0px;
+   background-color: #FF8C00;
+   width: 100%;
+   height: 70px;
+   }
+ #left{float:left; width:20%; height:100%;}
+ #right{float:right; width:25%; height:100%;}
+  ul {
+    z-index:2;
+    list-style: none;
+}
+ul li {
+    position: relative;
+}
+ul li:after {
+    content: '\2714';
+    position: absolute;
+    top: 2px;
+    left: -20px;
+}
+dd {
+    font-style: italic; /* Курсивное начертание текста */
+   }
+  #user2 { height: 40px; width: 250px; } 
+ #user111 {margin: 25px;margin-right: 120px; } 
+   #user {
+    height: 35px; /* Ширина поля в пикселах */
+    width: 170px;
+	margin-right: 15px;
+   } 
+   .user1 {
+    height: 30px; 
+    width: 240px;
+   } 
+ #user11 {
+    height: 35px; /* Ширина поля в пикселах */
+    width: 120px;
+	border-radius: 5px;
+   } 
+  
+  </style>
+  
+  <div id="header">
+  <script src="https://code.jquery.com/jquery-latest.js"></script>
+<script src="js/bootstrap.min.js"></script>
+  <table align=left bgcolor="#FF8C00" border =0 width = 100% cellpadding=0 cellspacing=0 >
+<tbody>
+  <tr>
+<td bgcolor="#FF8C00" height=70px><h2><div align=left><font face="Arial" color="black" id="user111"> Notum.pro</font></div></h2></td>
+<td width=700px></td>
+<form action="./registr.php" method=post>
+<td bgcolor="#FF8C00"><div align=right>
+<input type="button" onclick='window.location = "#openModal"' class="modlink" value="Я уже зарегистрирован" id="user">
+<input type="submit" name="unenter" value="Вход без регистрации" id="user"></div></td></form>
+</tr></tbody></table></div>
+  
+  </head>
+
+
+<div id="openModal1" class="modalDialog">
+		<div>
+			<a href="#close" title="Close" class="close">X</a>
+			<h2 align=center><font face="Arial">Регистрация</h2>
+		<div align=center>
+		<form action="./registr.php" method=post>
+        <label for=name ></label>
+		<input type=text name=name placeholder=Имя* class="user1" required  ><br><br>
+		<label for=login ></label>
+		<input type=email name=login placeholder=E-mail* class="user1" required onblur="checkLogin(this.value)" ><br><br>
+		<label for=password ></label>
+		<input type=password name=password placeholder=Пароль* class="user1" required><br><br>
+		<div id="check_login"></div><br>
+		<input type="submit" name="enter" value="Зарегистрироваться" id="al">
+		</form>
+ 			</div>
+		</div>
+	</div>
+
+<div id="openModal" class="modalDialog">
+		<div>
+			<a href="#close" title="Close" class="close">X</a>
+			<h2 align=center><font face="Arial">Вход</h2>
+		<div align=center>
+		<form action="./registr.php" method=post>
+		<label for=login></label>
+		<input type=email name=login placeholder=E-mail* id="log" class="user1" required onblur="checkLogin2(this.value)"/><br><br>
+		<label for=epassword ></label>
+		<input type=password name=epassword placeholder=Пароль* class="user1" id="proverka" required/><br><br>
+		<div id="check_login2"></div><br>
+		<input type="submit" name="enter1" value="Войти" id="user11" />
+		</form>
+ 			</div>
+		</div>
+	</div>
+<script type="text/javascript">
+  /* Функция, создающая экземпляр XMLHTTP */
+  function getXmlHttp() {
+    var xmlhttp;
+    try {
+      xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+      try {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (E) {
+        xmlhttp = false;
+      }
+    }
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+      xmlhttp = new XMLHttpRequest();
+    }
+    return xmlhttp;
+  }
+  function checkLogin(login) {
+    var xmlhttp = getXmlHttp(); // Создаём объект XMLHTTP
+    xmlhttp.open('POST', 'check_login.php', true); // Открываем асинхронное соединение
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем тип содержимого
+    xmlhttp.send("login=" + encodeURIComponent(login)); // Отправляем POST-запрос
+    xmlhttp.onreadystatechange = function() { // Ждём ответа от сервера
+      if (xmlhttp.readyState == 4) { // Ответ пришёл
+        if(xmlhttp.status == 200) { // Сервер вернул код 200 (что хорошо)
+          if (xmlhttp.responseText)
+              document.getElementById("check_login").innerHTML = "Пациент с таким почтовым адресом уже зарегистрирован!";
+          else
+              document.getElementById("check_login").innerHTML = "";
+        }
+      }
+    };
+  }
+  
+  function checkLogin1(login) {
+    var xmlhttp = getXmlHttp(); // Создаём объект XMLHTTP
+    xmlhttp.open('POST', 'check_login.php', true); // Открываем асинхронное соединение
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем тип содержимого
+    xmlhttp.send("login=" + encodeURIComponent(login)); // Отправляем POST-запрос
+    xmlhttp.onreadystatechange = function() { // Ждём ответа от сервера
+      if (xmlhttp.readyState == 4) { // Ответ пришёл
+        if(xmlhttp.status == 200) { // Сервер вернул код 200 (что хорошо)
+          if (xmlhttp.responseText) 
+		      document.getElementById("check_login1").innerHTML = "Пациент с таким почтовым адресом уже зарегистрирован!";
+          else
+              document.getElementById("check_login1").innerHTML = "";
+        }
+      }
+    };
+  }
+  
+  function checkLogin2(elogin) {
+    var xmlhttp = getXmlHttp(); // Создаём объект XMLHTTP
+    xmlhttp.open('POST', 'check_log.php', true); // Открываем асинхронное соединение
+    xmlhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded'); // Отправляем тип содержимого
+    xmlhttp.send("elogin=" + encodeURIComponent(elogin)); // Отправляем POST-запрос
+    xmlhttp.onreadystatechange = function() { // Ждём ответа от сервера
+      if (xmlhttp.readyState == 4) { // Ответ пришёл
+        if(xmlhttp.status == 200) { // Сервер вернул код 200 (что хорошо)
+          if (xmlhttp.responseText) 
+			document.getElementById("check_login2").innerHTML = "";
+          else
+              document.getElementById("check_login2").innerHTML = "Пациент с таким почтовым адресом не зарегистрирован!";
+        }
+      }
+    };
+  }
+  	
+  
+  
+</script>
+<body style="background:green; overflow:hidden;" text="white" >
+    <div width=100% style="background-color:green"><br><br><br><br><br>
+        <div align=center  id="left"><br><br><br><br><br><img  src= "3.png" width= "193" height= "286">
+		</div>
+        <div id="right" ><br><font face="Arial"><h2 align=center >Регистрация</h2></font>
+            <div align=center>
+		        <form action="./registr.php" method=post>
+				<label for=name ></label>
+	                	<input type=text name=name placeholder=Имя* id="user2" required  /><br><br>
+		            <label for=login ></label>
+	                	<input type=email name=login placeholder=E-mail* id="user2" required onblur="checkLogin1(this.value)" /><br><br>
+		                <div id="check_login1"></div>
+		            <label for=password ></label>
+		                <input type=password name=password placeholder=Пароль* id="user2" required pattern="^([a-z]+[0-9]*){6,}$" /><br><br>
+		                <input type="submit" name="enter" value="Зарегистрироваться" id="user">
+	        	</form>
+ 			</div>
+        </div>
+
+        <div align=center id="lay">
+			<font face="Arial">
+				<h1 align=center><br>Добро пожаловать в Notum!</h1>
+				<h2 align =center> Notum - это ваша электронная медицинская  карта, которую вы не сможете потерять!</h2><br><br> 
+				<h2 align=center><em>Вы хотите подробнее узнать о состоянии вашего здоровья, перед тем, как обратиться к врачу?</em></h2>
+				<h2> Notum поможет определить ваш диагноз,основываясь на ваших жалобах, анализах и истории болезней!</h2>
+			</font>
+		</div><br><br><br><br><br><br><br><br>
+    </div>
+
+
+    <div style="background:#4682B4; margin-left:-8px; margin-right:-8px">
+        <br><br><br><br><br><br><br><br><br><br><br><br>
+        <div id="lef">
+			<ul>
+				<li><h1>Отвечайте на вопросы честно</h1></li>
+				<li><h1>Заполняйте историю ваших болезней</h1></li>
+				<li><h1>Сдавайте рекомендуемые анализы</h1></li>
+			</ul><br><br>
+			<h2><dd> Это поможет повысить вероятность диагностики</dd></h2>
+		</div>
+		<div bgcolor= "#4682B4" width = 38% height= 360px align = center>
+			<img align=center src= "1.png" width= "450" height= "300">
+		</div><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	</div>
+
+ 
+	<div style="background:#BC8F8F; margin-left:-8px; margin-right:-8px;">
+		<br><br><br><br><br><br><br><br><br>
+		<div id="lef">
+			<font face="Arial" >
+				<h1 align=center>Notum - это увлекательно!</h1>
+				<h1><pre>     Зарабатывайте таблетки и открывайте 
+     новые возможности!</pre></h1>
+				<h2><pre>       Вы можете получить 10 таблеток уже сейчас.
+       Просто пройдите регистрацию. Это быстро.	
+				</h2></h2>
+			</font>
+		</div> 
+		<div align=center>
+			<h2><img align=center src= "2.png" width= "459" height= "287"></h2>
+		</div>
+		<div align=center ><br><br><br><br><br><br>
+			<form action="" method=post>
+				<input  type="button" onclick='window.location = "#openModal1"' value="Зарегистрироваться" class="button10" id="user21">
+			</form>
+		</div><br><br><br>
+	</div> 
+	<script language="JavaScript" type="text/javascript">
+		var go_down = jQuery('body');
+		jQuery(function() {
+			$("#Go_Top").hide().removeAttr("href");
+			if ($(window).scrollTop() >= "250") 
+				$("#Go_Top").fadeIn("slow");
+			var scrollDiv = $("#Go_Top");
+			$(window).scroll(function() {
+				if ($(window).scrollTop() <= "250")
+					$(scrollDiv).fadeOut("slow")
+				else 
+					$(scrollDiv).fadeIn("slow")
+			});
+	
+			$("#Go_Bottom").hide().removeAttr("href");
+			if ($(window).scrollTop() <= (go_down.height())-"999") 
+				$("#Go_Bottom").fadeIn("slow")
+			var scrollDiv_2 = $("#Go_Bottom");
+			$(window).scroll(function() {
+				if ($(window).scrollTop() >= (go_down.height())-"999") 
+					$(scrollDiv_2).fadeOut("slow")
+				else 
+					$(scrollDiv_2).fadeIn("slow")
+			});
+	
+			var position = 0;
+			$("#Go_Top").click(function() {
+				$("html, body").animate({scrollTop:($(window).scrollTop() - 710).toString() }, "slow")
+			})
+			$("#Go_Bottom").click(function() {
+				$("html, body").animate({scrollTop: ($(window).scrollTop() + 710).toString()}, "slow")
+			})
+		});
+	</script>
+
+	<a style='position: fixed; bottom: 570px; right: 670px; cursor:pointer; display:none;'
+		href='#' id='Go_Top'>
+		<button class="arrow_box"></button>
+	</a>
+
+	<a style='position: fixed; bottom: 40px; right: 670px; cursor:pointer; display:none;'
+	   href='#' id='Go_Bottom'>
+	   <button class="arrow_top"></button>
+	</a>
+
+ </body>
+ </html>

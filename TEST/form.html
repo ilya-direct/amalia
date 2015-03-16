@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head> 
+<title> NOTUM</title>
+
+<script type="text/javascript" src="jquery-1.11.2.min.js "></script>
+<meta http-equiv="Content_type" content="text/html; charset=UTF-8">   
+  </head>
+<body>
+<form action="#" method="get">
+           
+            <select name="country_id" id="country_id" >
+                <option value="0">- выберите страну -</option>
+                <option value="5">голова</option>
+                <option value="6">туловище</option>
+                <option value="7">рука</option>
+				<option value="8">нога</option>
+            </select></td><td>
+            
+            <select name="region_id" id="region_id" disabled="disabled" >
+                <option value="0">- выберите регион -</option>
+            </select></td><td>
+          
+            <select name="city_id" id="city_id" disabled="disabled" >
+                <option value="0">- выберите город -</option>
+            </select>
+        </form>
+   <div align=center id='check' style='overflow:scroll;height:150px;weight:150px; background:red;'>
+			  </div>
+																	
+									
+									
+	<script type='text/javascript'>
+		$(document).ready(function () {
+	$('#country_id').change(function () {
+		var country_id = $(this).val();
+		if (country_id == '0') {
+			$('#region_id').html('<option>- выберите регион -</option>');
+			$('#region_id').attr('disabled', true);
+			$('#city_id').html('<option>- выберите город -</option>');
+			$('#city_id').attr('disabled', true);
+			return(false);
+		}
+		$('#region_id').attr('disabled', true);
+		$('#region_id').html('<option>загрузка...</option>');
+		var url = 'server.php';
+		$.get(
+			url,
+			"country_id=" + country_id,
+			function (result) {
+				if (result.type == 'error') {
+					alert('error');
+					return(false);
+				}
+				else {
+					var options = ''; 
+
+					$(result.regions).each(function() {
+						options += '<option value="' + $(this).attr('ID_part') + '">' + $(this).attr('Body2') + '</option>';
+					});
+
+					$('#region_id').html('<option value="0">- выберите регион -</option>'+options);
+					$('#region_id').attr('disabled', false);
+					$('#city_id').html('<option>- выберите город -</option>');
+					$('#city_id').attr('disabled', true);  			
+				}
+			},
+			"json"
+		);
+	});
+
+$('#region_id').change(function () {
+		var region_id = $('#region_id :selected').val();
+		if (region_id == '0') {
+			$('#city_id').html('<option>- выберите город -</option>');
+			$('#city_id').attr('disabled', true);
+			return(false);
+		}
+		alert(region_id);
+		$('#city_id').attr('disabled', true);
+		$('#city_id').html('<option>загрузка...</option>');	
+		var url = 'get_regions.php';		
+		$.get(
+			url,
+			"region_id=" + region_id,
+            
+			function (result) {
+				if (result.type == 'error') {
+					alert('error');
+					return(false);
+				}
+				else {
+					var options = ''; 
+					$(result.regions).each(function() {
+						options += '<option value="' + $(this).attr('ID_part2') + '">' + $(this).attr('Body3') + '</option>';
+					});
+
+					$('#city_id').html('<option>- выберите город -</option>'+options);
+					$('#city_id').attr('disabled', false);
+				}
+			},
+			"json"
+		);
+	});	
+	
+	$('#city_id').change(function () {
+		var city_id = $('#city_id :selected').val();
+		alert(city_id);
+		var url = 'check.php';		
+		$.get(
+			url,
+			"city_id=" + city_id,
+            
+			function (result) {
+				if (result.type == 'error') {
+					alert('error');
+					return(false);
+				}
+				else {
+					var options = ''; 
+					$(result.regions).each(function() {
+						options += '<input type="checkbox" name="browser" value="' + $(this).attr('ID_symp') + '">' + $(this).attr('Symptom') + '<Br>';
+					});
+
+					$('#check').html(options);
+				//	$('#city_id').attr('disabled', false);
+				}
+			},
+			"json"
+		);
+	});	
+	
+	
+	
+	
+	
+	
+});
+
+ </script>							
+							
+									
+</body></html>		

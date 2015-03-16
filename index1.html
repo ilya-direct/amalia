@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+<head> 
+<title> NOTUM</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> 
+	<link rel="stylesheet" type="text/css" href="css/boot.min.css">  
+	<script type="text/javascript" src="js/jquery-2.1.3.min.js "></script>
+	<script type="text/javascript" src="js/bootstrap.min.js" ></script>
+	<style> #but{width:100px; height:200px;}</style>
+	
+		<script type="text/javascript">
+			$(function () {
+				$('[data-toggle="popover"]').popover();
+		})
+	</script>
+</head>
+<body id="bod">
+	<div align = center>
+		<table align=left  border =0 width = 100% cellpadding=0 cellspacing=0 >
+			<tbody> 
+				<tr>
+						<td bgcolor="#FF8C00"  width=407px height=70px id="header">
+							 <div style='float:right; margin-top:15px; margin-right:15px;'>
+									  <form action ="exit.php"  method='get'>
+					                    <input id='ud' type='submit' name='exit' value='Выйти'/>
+									  </form>	
+								</div>
+							<h2>
+								<div align=left id="user111">
+									 Notum.pro</div></h2>
+									 
+						</td>
+				</tr>
+				<tr>
+					<td width=350px>
+					    <b><h4 align=center><font face="Arial" align=center color="black">Привет! Меня зовут Notum!
+					        А это больница,здесь будут храниться твои данные.
+						</font></h4></b> 
+				    	<div align=left><img  src= "5.jpg" width= "150" height= "201"></div>
+					</td>
+					    <br><br><br><br><br><br><br><br><br><br>
+					
+					<td width= 450px id="rectangle">
+					    <div align=center>
+					
+					<!--МОИ ДАННЫЕ--////////////////////////////////////////////////////////////----->
+						    <button id="user" name="q" type="button" class="btn btn-lg btn-danger" data-toggle="popover"
+						        data-content="<div align=right>
+								<!--<label><b>Логин:</b></label> <?php //echo $login; ?> <br>-->
+						            
+						            <b>Имя:</b> <input id='name' <?php echo $is_disabled ?> style='width: 150px; height:38px;' type='text' name='name' value='<?php echo $name?>' /><br><br>
+						            <b>Пол:</b> <select id='sex' name='sex' class ='select-w-150-h-38' required>
+												<option  value=''>Не определен</option>
+                                                <?php if (isset($sex)) {
+													if ($sex == "M"){
+														$M = "selected";
+														} 
+														else {
+														$F = "selected";
+														}
+													}?>
+												<option  <?php echo $M; ?> value='Male'>Мужской</option>
+                                                <option <?php echo $F; ?> value='Female'>Женский</option>
+                                                </select><br><br>
+		                            <b>Дата рождения:</b> <input id='birth' type='date' name='datepat' value='<?php echo $birthday; ?>' /><br><br>
+						            <input id='submit' type='submit' name='sav' value='Сохранить'/> </div>
+									
+									 <script type='text/javascript'>
+										$(document).ready(function() {
+											$('#submit').click(function() {
+												var name = $('#name').val();
+												var sex = $('#sex').val();
+												var birth = $('#birth').val();
+												$.ajax({
+													url: './save.php',
+													type: 'POST',
+													dataType: 'text',
+													data: ('name='+name+'&sex='+sex+'&birth='+birth),
+													success:function(data){
+													$('#block').text(data);
+															}
+												});
+											});
+										});
+									  </script><div id='block'></div>" 
+						       data-html="true" data-placement="left">Мои данные*
+							</button>
+					<!--//////////////////////////////////////////////////////////////////////////////////-->	
+						
+					<!--МОИ ЖАЛОБЫ---/////////////////////////////////////////////////////////////////////-->	
+						    <button id="user" type="button" name="body" class="btn btn-lg btn-danger" 
+							    data-toggle="popover"  data-html="true"
+						        data-content="
+								    <table border=0>
+									    <tbody>
+										    <tr style='width:380px;'>
+					                           <td width=170px>
+					                                 <form action ='#'  method='get'>   
+					                                   <div align=left><b>Добавьте симптом:</b>
+					                                      <select name='country_id' id='country_id' class ='select-w-150-h-38'>
+														        <option value='0'>-выберите часть тела-</option>
+					                                        <?php foreach ($body as $body):?>
+						                                    	<option value='<?php echo $body['id']; ?>'><?php echo $body['body']; ?> </option>';
+					                                        <?php	endforeach;?>
+				                                          </select><br><br>
+														   <select name='region_id' id='region_id' disabled='disabled' class ='select-w-150-h-38'>
+														        <option value='0'>-выберите область-</option>
+				                                          </select><br><br>
+														   <select name='city_id' id='city_id' disabled='disabled' class ='select-w-150-h-38'>
+						                                    	<option value='0'>-выберите орган-</option>';
+				                                          </select><br><br>
+													    </div></form>	  
+				                                   <div align=left id='check' style='overflow:scroll;height:150px;weight:150px; background:white;'>
+												  </div><br>
+												   <div align=center><input id='click' type='submit' name='sav' value='Добавить симптом'/></div>
+												</td>
+				                                <td width=30px></td>
+				                              
+			                                    <td width=190px>
+												   <div align=left>
+												      <b>Жалобы:</b>
+													  <div text =black style='overflow:scroll;height:250px;weight:150px; background:white;'>
+			                                          <div id='symptoms'></div></div><br>
+													  <b>Не нашли нужные симптомы в списке?<br>
+													  Напишите, и мы его добавим:</b><br>
+													   <input id='req' type='text' name='req' /> 
+													   </div>
+												   </div><div id='request'></div>
+												</td>
+												<td width=30px><br><br><br><br><br>
+												<br><br><br><br><br><br><br><br><br><br><br><br><br>
+												<div align=center><input id='click3' type='submit' name='sav' value='+'/></div>
+												</td>
+												
+											</tr>
+										</tbody>
+								    </table>
+									
+									<script type='text/javascript' src='select.js'>
+								</script>"
+						        data-placement="right">Мои жалобы*
+					        </button>
+                <!--////////////////////////////////////////////////////////////////////////////////////////////-->   						
+
+						
+					    </div>
+					
+					
+				<!--NOTUM----///////////////////////////////////////////////////////////////////////////////////-->    
+						<div align=center> 
+						    <button id="ud" type="button" <?php echo $is_disabled ?> class="btn btn-lg btn-danger" 
+data-toggle="popover"  
+						        data-content="
+						            <form action='' method='POST'>
+					            	<b>Диагнозы, которые поставил Notum:</b>
+					            	<div align=center text =black style='overflow:scroll;height:100px;weight:200px; background:white;'><br>
+				                    	<table border=0 width=100% style='margin-top:-10px;'>                              
+				                         	<tbody bgcolor=white> 
+				                         		<tr> 
+					                        		<td align=center>Диагноз:</td>
+				                        			<td align=center> Дата:</td>
+													<td align=center> Совпадения:</td>
+					                        	</tr>
+						                            <?php foreach ($notum as $notum):?> 
+					                        	<tr>
+						                          	<td align=center> <?php echo $notum['diag']; ?> </td>
+							                        <td align=center> <?php echo $notum['data']; ?> </td>
+													<td align=center> <?php echo $notum['metch']; ?> </td>
+						                        </tr>
+						                            <?php endforeach; ?>
+				                         	</tbody>
+					                    </table>
+		                            </div>
+                             		</form>" data-html="true" data-placement="top" >Notum
+							</button>
+						</div>
+					<!--///////////////////////////////////////////////////////////////////////////////////////////--> 
+
+
+					<!--///Моя история болезней*--//////////////////////////////////////////////////////////////////---->
+				    	<div align=center>
+					        <button id="user" <?php echo $is_disabled ?> type="button" class="btn btn-lg btn-danger" data-toggle="popover"  
+					                data-content="<div align=right>
+													   <b>Диагноз:</b>
+					                                      <select name='diag' id='diag' class ='select-w-150-h-38'>
+					                                        <?php foreach ($diag as $diag):?>
+						                                    	<option value='<?php echo $diag['id']; ?>'><?php echo $diag['diag']; ?> </option>';
+					                                        <?php	endforeach;?>
+				                                          </select><br><br>
+						                              <b>Дата:</b>
+													  <input id='date' type=date name='date' /><br><br>
+						                              <input id='edit' type='submit' name='update' value='Добавить'/> 
+												   </div><br>
+												   
+												   <script type='text/javascript' src='diagnoz.js'> </script>   
+						                           <div align=center text =black style='overflow:scroll;height:100px;weight:150px; background:white;'><br>
+					                                    <table border=0 width=100% style='margin-top:-10px;'>                              
+				                                        	<tbody bgcolor=white> 
+				                                        		<tr> 
+						                                        	<td align=center>Диагноз:</td>
+																	<td align=center>Дата:</td>
+				                                        		</tr>
+																<tr>
+				                                               		
+						                                        	<td align=center id='diagnoz'> </div></td>
+						                                            	<td align=center id='data'> </td></div>
+																</tr>	
+					                                        </tbody>
+					                                    </table>
+		                                            </div>" 
+									data-html="true" data-placement="left">Моя история болезней*
+							</button>
+		              <!---//////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+		
+	               	<!--Мои анализы*/////////////////////////////////////////////////////////////////////////////////////////////////-->
+						    <button id="user" type="button" <?php echo $is_disabled ?> class="btn btn-lg btn-danger" data-toggle="popover"  
+						            data-content="<script type='text/javascript' src='anid.js'>
+													</script>
+													
+									    <table border=0 style='color:black;'>
+										    <tbody>
+											    <tr>
+					                                <td width=200px>
+                                                          <b>Добавить анализ:</b>											
+					                                      <select name='analys' id='analys' class ='select-w-150-h-38'>
+														        <option value='0'>-выберите анализ-</option>';
+					                                        <?php foreach ($analys as $analys):?>
+						                                    	<option value='<?php echo $analys['id']; ?>'><?php echo $analys['an']; ?> </option>';
+					                                        <?php	endforeach;?>
+				                                          </select><br>
+				                                        <b>Дата:</b> <br>
+														<input type=date name='datean' /> <br><br>
+				                                        <div align=center text =black style='overflow:scroll;height:80px;weight:130px; background:white;'>
+														  <table border=1 >                              
+																<tbody bgcolor=white> 
+																	<tr> 
+																		<td align=center>показатель:</td>
+																		<td align=center>значение:</td>
+																		<td align=center>единицы:</td>
+																	</tr>
+																	<tr>
+																	
+																		<td id='an' align=center></td>
+																		<td align=center id='an1'>
+												
+																		</td>
+																		<td align=center> <?php //echo $notum['metch']; ?> </td>
+																	</tr>
+																<?php //endforeach; ?>
+				                         	</tbody>
+					                    </table>
+														</div>
+												    </td>
+				                                    <td width=100 align=center>
+												        <br><br><br><br><br><br><br><br><br><br>
+														<input type='submit' name='sav' value='+'/>
+													</td>
+													
+													
+													
+													
+									
+													<td width=200px>
+														<label for='stud'>Сданные анализы:</label>
+														<select name='stud' id='stud' class ='select-w-150-h-38'>
+															<?php foreach ($query1 as $query1):?>
+															<option value='<?php //echo $query1['diag']; ?>'><?php //echo $query1['diag']; ?> 
+															</option>
+															<?php endforeach;?>
+														</select><br>
+														<b>Дата:</b><br>
+														<input type=date name=birthday placeholder=Birthday /><br><br>
+														<div align=center  style='overflow:scroll;height:80px;weight:130px; background:white;'>
+														 <table border=1 >                              
+																<tbody bgcolor=white> 
+																	<tr> 
+																		<td align=center>показатель:</td>
+																		<td align=center>значение:</td>
+																		<td align=center>единицы:</td>
+																	</tr>
+																<?php //foreach ($notum as $notum):?> 
+																	<tr>
+																		<td align=center> <?php //echo $notum['diag']; ?> </td>
+																		<td align=center>
+																		<input type=text name=znach required style='width:60px;'/><br><br>
+																		</td>
+																		<td align=center> <?php //echo $notum['metch']; ?> </td>
+																	</tr>
+																<?php //endforeach; ?>
+				                         	</tbody>
+					                    </table>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td></td>
+													<td colspan=2 align=center>
+														<input type='submit' name='sav' value='Редактировать'/><br>
+														<input type='submit' name='sav' value='Сохранить'/>
+													</td>
+												</tr>
+											</tbody>
+										</table>"
+					                data-html="true" data-placement="right">Мои анализы*
+							</button>
+			<!--////////////////////////////////////////////////////////////////////////////////////////////-->
+			
+				   	</td>
+					<td width=480px>
+					</td>
+				</tr>
+			</tbody>
+		</table> 
+	</div>
+</div>
+
+
+</body>
+</html>

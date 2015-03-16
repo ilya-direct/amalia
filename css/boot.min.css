@@ -1,0 +1,52 @@
+﻿ #user111 { 
+	 font-family: Arial; 
+	 margin: 21px;
+	 margin-right: 120px; 
+	 font-size:80%; 
+	 font-weight:600;
+	 color:black;} 
+	 #ud{
+	  font-size:105%; 
+		font-family: Arial; 
+		border-radius: 0px;
+		color: black;
+		border-color:#FFF0F5;
+		background-color: #FFF0F5;
+		height: 40px; 
+		width: 80px;
+		color: black;
+	 }
+		#user {
+		 font-size:105%; 
+		font-family: Arial; 
+		border-radius: 0px;
+		color: black;
+		border-color:#FFF0F5;
+		background-color: #FFF0F5;
+		height: 90px; 
+		width: 180px;
+		margin: 25px;
+		} 
+		#rectangle {
+		width: 450px;
+		height: 320px;
+		background: #00FFFF;
+		}
+		#header{
+		position:absolute;
+		top: 0px;
+		left: 0px;
+		background-color: #FF8C00;
+		width: 1365px;
+		height:70px;
+		}
+		#bod{
+		color:black;
+		background-color: #20B2AA;
+		}
+		#butt{
+		width: 400px; height:100px;
+		}
+		.select-w-150-h-38 {
+			width: 150px; height:38px;
+		}
